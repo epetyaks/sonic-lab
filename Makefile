@@ -28,6 +28,12 @@ kvm/download/image:
 kvm/sonic/up:
 	- ./deployments/network-up.sh
 	sudo systemctl restart libvirtd
+	- sudo virsh net-define ./deployments/sonic-kvm-xml/sonic-net-01.xml
+	- sudo virsh net-define ./deployments/sonic-kvm-xml/sonic-net-02.xml
+	- sudo virsh net-start sonic-net-01
+	- sudo virsh net-start sonic-net-01
+	- sudo virsh net-autostart sonic-net-01
+	- sudo virsh net-autostart sonic-net-01
 	sudo virsh start sonic-vs-01
 	sudo virsh start sonic-vs-02
 

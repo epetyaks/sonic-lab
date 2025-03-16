@@ -1,0 +1,5 @@
+<network>
+    <name>sonic-net-01</name>
+    <forward mode="bridge" />
+    <bridge name="sonic-net-01" />
+</network>
