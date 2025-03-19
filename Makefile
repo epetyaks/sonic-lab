@@ -2,6 +2,8 @@ CURRENT_USER := $(USER)
 SONIC_IMG_URI := https://sonic-build.azurewebsites.net/api/sonic/artifacts?branchName=master&platform=vs&target=target/sonic-vs.img.gz
 SONIC_TMP_GZ_LOC := /tmp/sonic-vs.img.gz
 SONIC_TMP_IM_LOC := /tmp/sonic-vs.img
+NM_FILE := /etc/NetworkManager/NetworkManager.conf
+NM_APPEND := "unmanaged-devices=interface-name:sonic-net-01;interface-name:sonic-net-02"
 
 
 .PHONY: kvm/install/deps
@@ -23,6 +25,11 @@ kvm/download/image:
 	sudo cp ./deployments/sonic-kvm-xml/sonic-vs-01.xml /etc/libvirt/qemu/
 	sudo cp ./deployments/sonic-kvm-xml/sonic-vs-02.xml /etc/libvirt/qemu/
 
+
+.PHONY: fix/networkmanager
+fix/networkmanager:
+	- sudo grep -q "sonic-net-01" ${NM_FILE} || sudo bash -c 'echo [keyfile] >> ${NM_FILE}' && sudo bash -c 'echo ${NM_APPEND} >> ${NM_FILE}'
+	- sudo systemctl restart NetworkManager
 
 .PHONY: kvm/sonic/up
 kvm/sonic/up:
