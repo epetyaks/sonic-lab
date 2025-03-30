@@ -9,11 +9,26 @@
 4) make kvm/sonic/up            -> start two sonic vs switches
 5) make kvm/sonic/down          -> stop two sonic vs switches
 
-todo after lab start:
+Post lab Start Tasks:
 
 telnet 127.0.0.1 7001
     admin/YourPaSsWoRd
+
     sudo ip addr add 172.16.181.11/24 dev eth0
+    echo admin:$(LANG=C perl -e 'print crypt("admin", "salt"),"\n"') | sudo chpasswd -e
+    scp ./deployments/sonic-kvm-xml/config_db_01.json admin@172.16.181.11:/home/admin
+    sudo mv /home/admin/config_db_01.json /etc/sonic/config_db.json
+    sudo reboot
+
 telnet 127.0.0.1 7002
     admin/YourPaSsWoRd
+
     sudo ip addr add 172.16.181.12/24 dev eth0
+    echo admin:$(LANG=C perl -e 'print crypt("admin", "salt"),"\n"') | sudo chpasswd -e
+    scp ./deployments/sonic-kvm-xml/config_db_02.json admin@172.16.181.12:/home/admin
+    sudo mv /home/admin/config_db_02.json /etc/sonic/config_db.json
+    sudo reboot
+
+After:
+ ssh admin@172.16.181.11    password: admin
+ ssh admin@172.16.181.12    password: admin

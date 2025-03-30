@@ -22,6 +22,7 @@ kvm/download/image:
 	gunzip ${SONIC_TMP_GZ_LOC}
 	sudo cp ${SONIC_TMP_IM_LOC} /var/lib/libvirt/images/sonic-vs-01.img
 	sudo cp /var/lib/libvirt/images/sonic-vs-01.img /var/lib/libvirt/images/sonic-vs-02.img
+	- rm -rf ${SONIC_TMP_IM_LOC}
 	sudo cp ./deployments/sonic-kvm-xml/sonic-vs-01.xml /etc/libvirt/qemu/
 	sudo cp ./deployments/sonic-kvm-xml/sonic-vs-02.xml /etc/libvirt/qemu/
 
