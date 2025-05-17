@@ -1,5 +1,5 @@
 CURRENT_USER := $(USER)
-SONIC_IMG_URI := https://sonic-build.azurewebsites.net/api/sonic/artifacts?branchName=master&platform=vs&target=target/sonic-vs.img.gz
+SONIC_IMG_URI := https://sonic-build.azurewebsites.net/api/sonic/artifacts?branchName=202411&platform=vs&target=target/sonic-vs.img.gz
 SONIC_TMP_GZ_LOC := /tmp/sonic-vs.img.gz
 SONIC_TMP_IM_LOC := /tmp/sonic-vs.img
 NM_FILE := /etc/NetworkManager/NetworkManager.conf
@@ -39,9 +39,9 @@ kvm/sonic/up:
 	- sudo virsh net-define ./deployments/sonic-kvm-xml/sonic-net-01.xml
 	- sudo virsh net-define ./deployments/sonic-kvm-xml/sonic-net-02.xml
 	- sudo virsh net-start sonic-net-01
-	- sudo virsh net-start sonic-net-01
+	- sudo virsh net-start sonic-net-02
 	- sudo virsh net-autostart sonic-net-01
-	- sudo virsh net-autostart sonic-net-01
+	- sudo virsh net-autostart sonic-net-02
 	sudo virsh start sonic-vs-01
 	sudo virsh start sonic-vs-02
 
