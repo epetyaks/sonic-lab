@@ -3,13 +3,13 @@ SONIC_IMG_URI := https://sonic-build.azurewebsites.net/api/sonic/artifacts?branc
 SONIC_TMP_GZ_LOC := /tmp/sonic-vs.img.gz
 SONIC_TMP_IM_LOC := /tmp/sonic-vs.img
 NM_FILE := /etc/NetworkManager/NetworkManager.conf
-NM_APPEND := "unmanaged-devices=interface-name:sonic-net-01;interface-name:sonic-net-02"
+NM_APPEND := "unmanaged-devices=interface-name:sonic-net-01;interface-name:sonic-net-02;interface-name:sonic-net-03;interface-name:sonic-net-04"
 
 
 .PHONY: kvm/install/deps
 kvm/install/deps:
 	- sudo apt update
-	sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils -y
+	sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils sshpass expect -y
 	sudo adduser ${CURRENT_USER} libvirt
 	sudo adduser ${CURRENT_USER} kvm
 
@@ -40,8 +40,12 @@ kvm/sonic/up:
 	- sudo virsh net-define ./deployments/sonic-kvm-xml/sonic-net-02.xml
 	- sudo virsh net-start sonic-net-01
 	- sudo virsh net-start sonic-net-02
+	- sudo virsh net-start sonic-net-03
+	- sudo virsh net-start sonic-net-04
 	- sudo virsh net-autostart sonic-net-01
 	- sudo virsh net-autostart sonic-net-02
+	- sudo virsh net-autostart sonic-net-03
+	- sudo virsh net-autostart sonic-net-04
 	sudo virsh start sonic-vs-01
 	sudo virsh start sonic-vs-02
 
@@ -50,3 +54,8 @@ kvm/sonic/down:
 	- sudo virsh destroy sonic-vs-01
 	- sudo virsh destroy sonic-vs-02
 	- ./deployments/network-down.sh
+
+.PHONY: kvm/sonic/config
+kvm/sonic/config:
+	- ./deployments/sonic1-config.sh
+	- ./deployments/sonic2-config.sh

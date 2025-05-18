@@ -7,7 +7,8 @@
 
 -- run multiple times:
 4) make kvm/sonic/up            -> start two sonic vs switches
-5) make kvm/sonic/down          -> stop two sonic vs switches
+5) make kvm/sonic/configure     -> (first start only, to provide configuration via telnet session). if this will not work, do stuff arter Post lan Start... manually
+6) make kvm/sonic/down          -> stop two sonic vs switches
 
 Post lab Start Tasks:
 
